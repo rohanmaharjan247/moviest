@@ -1,0 +1,45 @@
+<h1 class="m-3">Now Playing</h1>
+<div class="row">
+  <div class="col-sm-12 col-md-12">
+    <ng-container *ngIf="nowPlayingList">
+
+      <div [appLoader]="loadingNowPlaying" class="row row-cols-1 row-cols-md-5">
+        <ng-container *ngIf="!loadingNowPlaying">
+          <div class="col mt-2" *ngFor="let np of nowPlayingList">
+            <!-- (click)="openDialog(np.id)  [routerLink]="['/movies/details', np.id]"-->
+            <a
+              [routerLink]=""
+              class="text-decoration-none text-dark"
+              (click)="openDialog(np.id)"
+            >
+              <div class="card card-radius h-100">
+                <img
+                  appImageLoader
+                  [src]="_configurationService.imageUrl + np.poster_path"
+                  class="card-img-top"
+                  *ngIf="np.poster_path"
+                />
+                <div class="card-body">
+                  <p class="card-title fw-bold mb-0">{{ np.title }}</p>
+                  <p class="card-subtitle mb-2 text-muted">
+                    {{ np.release_date | date: "dd MMM, yyyy" }}
+                  </p>
+                </div>
+              </div>
+            </a>
+          </div>
+        </ng-container>
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <mat-paginator
+            [pageSize]="pageSize"
+            [pageSizeOptions]="pages"
+            [length]="pageLength"
+            (page)="pageEvent($event)"
+          ></mat-paginator>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</div>

@@ -1,0 +1,64 @@
+<h1 class="m-3">Popular People</h1>
+<div class="row">
+  <div class="col-12">
+    <ng-container *ngIf="popularList">
+      <div class="row">
+        <div class="col-12 p-0">
+          <mat-form-field appearance="outline">
+            <mat-label>Search People...</mat-label>
+            <input
+              matInput
+              [formControl]="searchText"
+              placeholder="Search People..."
+            />
+          </mat-form-field>
+        </div>
+      </div>
+      <div
+        [appLoader]="loadingPopularPeople"
+        class="row row-cols-1 row-cols-md-5"
+      >
+        <ng-container *ngIf="!loadingPopularPeople">
+          <div class="col mt-0 popular-people p-0" *ngFor="let pop of popularList">
+            <!-- (click)="openDialog(np.id)  [routerLink]="['/movies/details', np.id]"-->
+            <a
+              [routerLink]="['/people', pop.id]"
+              class="text-decoration-none text-dark"
+            >
+              <div class="card card-shadow h-100">
+                <img
+                  appImageLoader
+                  [src]="_configurationService.imageUrl + pop.profile_path"
+                  class="card-img-top"
+                  *ngIf="pop.profile_path; else imageAvatar"
+                />
+                <div class="card-image-overlay p-0">
+                  <div class="card-text-overlay p-4">
+                    <p class="card-title fw-bold mb-0">{{ pop.name }}</p>
+                    <p class="card-subtitle mb-2">
+                      {{ pop.known_for_department }}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </a>
+          </div>
+        </ng-container>
+      </div>
+      <div class="row">
+      <div class="col-12 p-0">
+        <mat-paginator
+          [pageSize]="pageSize"
+          [pageSizeOptions]="pages"
+          [length]="pageLength"
+          (page)="pageEvent($event)"
+        ></mat-paginator>
+      </div>
+    </div>
+    </ng-container>
+  </div>
+</div>
+
+<ng-template #imageAvatar>
+  <img src="assets/avatars/avatar-2191918_1920.png" class="card-img-top">
+</ng-template>

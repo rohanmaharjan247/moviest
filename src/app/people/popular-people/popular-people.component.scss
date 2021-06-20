@@ -1,0 +1,20 @@
+@import '../../../variables';
+
+.card-text-overlay{
+  background: linear-gradient(to top, black, transparent);
+    color: #fff;
+    transition: color 150ms ease-in-out;
+}
+
+.popular-people a:hover .card-text-overlay, .popular-people a:active .card-text-overlay{
+  color: $link-hover-color;
+}
+
+.card-image-overlay{
+  position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    padding: 1rem;
+    border-radius: calc(.25rem - 1px);
+}

@@ -1,0 +1,335 @@
+<ng-container *ngIf="movieDetail">
+  <div
+    class="backdrop-image"
+    [ngClass]="viewMore ? 'mt-3' : ''"
+    [ngStyle]="{
+      'background-image':
+        'url(' + _configuration.imageUrl + movieDetail.backdrop_path + ')'
+    }"
+  >
+    <div class="overlay">
+      <div class="row p-4">
+        <div class="col-sm-12 col-md-4">
+          <a
+            mat-dialog-close
+            [matTooltip]="'View More Details'"
+            [routerLink]="['/movies/details', movieDetail.id]"
+            *ngIf="!viewMore; else noLinkImage"
+          >
+            <div class="position-relative">
+              <img
+                [src]="_configuration.imageUrl + movieDetail.poster_path"
+                class="img-fluid"
+              />
+              <div class="ratings">
+                <mat-spinner
+                  color="accent"
+                  [diameter]="50"
+                  mode="determinate"
+                  [value]="movieDetail.vote_average * 10"
+                >
+                </mat-spinner>
+
+                <span class="percentage"
+                  >{{ movieDetail.vote_average * 10 }}%</span
+                >
+              </div>
+            </div>
+          </a>
+        </div>
+        <div class="col-sm-12 col-md-8">
+          <h2 class="mb-0">
+            <!-- {{ movieDetail.title }}({{
+              movieDetail.release_date | date: "yyyy"
+            }}) -->
+            <ng-container
+              [ngTemplateOutlet]="!viewMore ? withLink : basicTitle"
+              [ngTemplateOutletContext]="{ details: movieDetail }"
+            ></ng-container>
+          </h2>
+          <h4 class="text-muted detail-subtitle">
+            <span>
+              <ng-container
+                *ngFor="let genre of movieDetail.genres; let i = index"
+              >
+                {{ genre.name }}
+                <span *ngIf="i != movieDetail.genres.length - 1">,</span>
+              </ng-container>
+            </span>
+            <span>
+              {{ convertRuntime(movieDetail.runtime) }}
+            </span>
+          </h4>
+          <!-- <div class="mb-3 spinner-pos">
+
+          </div> -->
+          <blockquote
+            class="fst-italic blockquote quotations"
+            *ngIf="movieDetail.tagline"
+          >
+            {{ movieDetail.tagline }}
+          </blockquote>
+          <h2>Overview</h2>
+          <p>
+            {{ movieDetail.overview }}
+          </p>
+          <div class="row mb-3">
+            <div class="col-12">
+              <h2>Production</h2>
+            </div>
+            <div class="col-12">
+              <ng-container
+                *ngFor="let production of movieDetail.production_companies"
+              >
+                <span class="me-2 pc-bg" [matTooltip]="production.name">{{
+                  pcInitials(production.name)
+                }}</span>
+              </ng-container>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <p class="mb-0 fw-bold">Budget</p>
+              <p class="mb-0">{{ movieDetail.budget | currency }}</p>
+            </div>
+            <div class="col">
+              <p class="mb-0 fw-bold">Revenue</p>
+              <p class="mb-0">{{ movieDetail.revenue | currency }}</p>
+            </div>
+            <div class="col">
+              <p class="mb-0 fw-bold">Homepage</p>
+              <a
+                [href]="movieDetail.homepage"
+                target="_blank"
+                class="homepage-link"
+                >{{ movieDetail.original_title }}</a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-container>
+
+<ng-container *ngIf="viewMore">
+  <ng-container *ngIf="movieCredits">
+    <div class="row mt-3">
+      <div class="col-sm-12 col-md-8">
+        <div class="row row-cols-1 row-cols-5">
+          <div class="col" *ngFor="let credit of movieCredits">
+            <a
+              [routerLink]="['/people', credit.id]"
+              class="text-dark homepage-link"
+            >
+              <div class="card card-radius h-100">
+                <img
+                  [src]="_configuration.imageUrl + credit.profile_path"
+                  [alt]="credit.name"
+                  class="card-img-top"
+                  *ngIf="credit.profile_path"
+                />
+                <div class="card-body">
+                  <p class="card-title fw-bold mb-0">{{ credit.name }}</p>
+                  <p class="fst-italic text-muted">{{ credit.character }}</p>
+                </div>
+              </div>
+            </a>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <h2 class="cast-crew mt-3">
+              <a [routerLink]="" (click)="openDialog()">Full Cast & Crew >></a>
+            </h2>
+          </div>
+        </div>
+        <hr />
+
+        <ng-container *ngIf="movieReviews">
+          <div class="row">
+            <div class="col-8">
+              <div
+                class="card card-radius mb-3"
+                *ngFor="let reviews of movieReviews.results"
+              >
+                <div class="card-body">
+                  <div class="row g-0">
+                    <div class="col-2">
+                      <img
+                        [src]="
+                          reviews.author_details.avatar_path.includes('http')
+                            ? reviews.author_details.avatar_path.substring(1)
+                            : _configuration.imageUrl +
+                              reviews.author_details.avatar_path
+                        "
+                        [alt]="reviews.author"
+                        class="img-fluid"
+                        *ngIf="reviews.author_details.avatar_path"
+                      />
+                    </div>
+                    <div class="col-10 ps-2">
+                      <h2
+                        class="
+                          mt-0
+                          mb-0
+                          d-flex
+                          justify-content-start
+                          align-items-center
+                        "
+                      >
+                        A Review written by {{ reviews.author }}
+                      </h2>
+                      <p class="mb-0">
+                        at {{ reviews.created_at | date: "dd MMM, yyyy" }}
+                      </p>
+                      <p class="text-truncate">{{ reviews.content }}</p>
+                      <a href="#" class="stretched-link">Read More</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+      <ng-container *ngIf="movieDetail">
+        <div class="col-sm-12 col-md-4">
+          <div class="card">
+            <div class="card-body">
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                  <p class="fw-bold mb-0">Status</p>
+                  <p>{{ movieDetail.status }}</p>
+                </li>
+                <li class="list-group-item">
+                  <p class="fw-bold mb-0">Release Date</p>
+                  <p>{{ movieDetail.release_date | date: "dd MMM, yyyy" }}</p>
+                </li>
+                <li class="list-group-item">
+                  <p class="fw-bold mb-0">Keywords</p>
+                  <mat-chip-list *ngIf="movieKeywords">
+                    <mat-chip *ngFor="let keywords of movieKeywords">{{
+                      keywords.name
+                    }}</mat-chip>
+                  </mat-chip-list>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+  </ng-container>
+</ng-container>
+
+<ng-template #basicTitle let-detail="details">
+  {{ detail.title }}({{ detail.release_date | date: "yyyy" }})
+</ng-template>
+
+<ng-template #withLink let-detail="details">
+  <div class="d-flex">
+    <a
+      mat-dialog-close
+      [matTooltip]="'View More Details'"
+      [routerLink]="['/movies/details', movieDetail.id]"
+      class="homepage-link me-auto"
+    >
+      {{ detail.title }}({{ detail.release_date | date: "yyyy" }})
+    </a>
+    <a mat-dialog-close [routerLink]="" class="mb-0 homepage-link">
+      <mat-icon>cancel</mat-icon>
+    </a>
+  </div>
+</ng-template>
+<ng-template #noLinkImage>
+  <div class="position-relative">
+    <img
+      [src]="_configuration.imageUrl + movieDetail.poster_path"
+      class="img-fluid"
+    />
+    <div class="ratings">
+      <mat-spinner
+        color="accent"
+        [diameter]="50"
+        mode="determinate"
+        [value]="movieDetail.vote_average * 10"
+      >
+      </mat-spinner>
+      <span class="percentage"
+      >{{ movieDetail.vote_average * 10 }}%</span
+    >
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #allMovieCreditsDialog>
+  <h1 mat-dialog-title>Credits</h1>
+  <div mat-dialog-content>
+    <h2 class="mb-2" *ngIf="allMovieCredits.cast.length > 0">Cast</h2>
+    <div class="row row-cols-5">
+      <div class="col p-0" *ngFor="let cast of allMovieCredits.cast">
+        <a
+          [routerLink]=""
+          class="text-decoration-none text-dark"
+          (click)="closeDialog(cast.id)"
+        >
+          <div class="card">
+            <img
+              [src]="
+                _configuration._config.images.base_url +
+                _configuration._config.images.profile_sizes[1] +
+                cast.profile_path
+              "
+              class="card-img-top rounded"
+              *ngIf="cast.profile_path; else noImageFound"
+            />
+
+            <div class="card-image-overlay p-0">
+              <div class="card-text-overlay p-4">
+                <p class="mb-0">{{ cast.name }}</p>
+                <p class="mb-0">{{ cast.character }}</p>
+              </div>
+            </div>
+          </div>
+        </a>
+      </div>
+    </div>
+    <h2 class="mb-2" *ngIf="allMovieCredits.crew.length > 0">Crew</h2>
+    <div class="row row-cols-5">
+      <div class="col p-0" *ngFor="let crew of allMovieCredits.crew">
+        <a
+          [routerLink]=""
+          class="text-decoration-none text-dark"
+          (click)="closeDialog(crew.id)"
+        >
+          <div class="card">
+            <img
+              [src]="
+                _configuration._config.images.base_url +
+                _configuration._config.images.profile_sizes[1] +
+                crew.profile_path
+              "
+              class="card-img-top rounded"
+              *ngIf="crew.profile_path; else noImageFound"
+            />
+
+            <div class="card-image-overlay p-0">
+              <div class="card-text-overlay p-4">
+                <p class="mb-0">{{ crew.name }}</p>
+                <p class="mb-0">{{ crew.job }}</p>
+              </div>
+            </div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #noImageFound>
+  <img
+    src="assets/avatars/avatar-2191918_1920.png"
+    class="card-img-top rounded"
+  />
+</ng-template>

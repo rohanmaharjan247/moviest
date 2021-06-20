@@ -1,1 +1,64 @@
 /* You can add global styles to this file, and also import other style files */
+
+@import "./variables";
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+h1,h2,h3,h4,h5,h6{
+  letter-spacing: 1.5rem;
+  line-height: 1.1;
+}
+
+p{
+  line-height: 1.5;
+}
+
+
+.custom-dialog-container .mat-dialog-container{
+  padding:0;
+  overflow: hidden;
+}
+
+.spinner{
+  background-color: red;
+  width: 100px;
+  height: 100px;
+}
+
+.card-shadow{
+  box-shadow: 0 2px 8px rgb(0 0 0 / 10%);
+}
+
+mat-form-field{
+  width: 100%;
+}
+
+
+
+.homepage-link, .homepage-link:visited{
+  color: #fff;
+  text-decoration: none;
+  transition: color ease-in 200ms;
+}
+
+.homepage-link:hover, .homepage-link:active{
+  color: $link-hover-color;
+}
+
+.card-radius{
+  border-radius: 1.05rem!important;
+  .card-img-top{
+    border-top-left-radius: calc(1.05rem - 1px);
+    border-top-right-radius: calc(1.05rem - 1px);
+  }
+}
+
+.card{
+  transition: all 250ms ease-in-out;
+}
+
+.card-radius:hover{
+  box-shadow: 4px 2px 6px #e3e3e3;
+  transform: translateY(-5px);
+}

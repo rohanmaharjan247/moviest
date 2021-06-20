@@ -1,0 +1,193 @@
+<div class="overlay-bg">
+  <div class="overlay-jumbo">
+    <h1 class="heading-title">Welcome to Moviest</h1>
+    <div class="input-group input-group-p mb-3">
+      <input
+        type="text"
+        class="form-control search-border-radius"
+        [formControl]="searchQuery"
+        placeholder="Search TV Show, Movies and People"
+        aria-label="Search TV Show, Movies and People"
+        aria-describedby="button-addon2"
+        autocomplete="false"
+        (keyup.Enter)="searchAll()"
+      />
+      <button
+        class="btn btn-grad search-button-radius"
+        type="button"
+        id="button-addon2"
+        (click)="searchAll()"
+      >
+        Search
+      </button>
+    </div>
+  </div>
+</div>
+<section class="trending" id="trending">
+<div class="d-flex align-items-center pt-3 pb-3">
+  <h2 class="mb-0 me-4">Trending {{ trendingTitle }}</h2>
+  <div class="pills-tab mb-2">
+    <div class="pills-tab-items" [ngClass]="mediaType === 'all' ? 'active' : ''">
+      <a [routerLink]="" (click)="selectTab('all')">All</a>
+    </div>
+    <div class="pills-tab-items" [ngClass]="mediaType === 'movie' ? 'active' : ''">
+      <a [routerLink]="" (click)="selectTab('movie')">Movies</a>
+    </div>
+    <div class="pills-tab-items" [ngClass]="mediaType === 'tv' ? 'active' : ''">
+      <a [routerLink]="" (click)="selectTab('tv')">TV Shows</a>
+    </div>
+    <div class="pills-tab-items" [ngClass]="mediaType === 'person' ? 'active' : ''">
+      <a [routerLink]="" (click)="selectTab('person')">People</a>
+    </div>
+  </div>
+</div>
+  <div class="pills-items" [ngSwitch]="mediaType">
+    <ng-container *ngSwitchCase="'all'">
+      <ng-container *ngTemplateOutlet="allTrending"> </ng-container>
+    </ng-container>
+    <ng-container *ngSwitchCase="'movie'">
+      <ng-container *ngTemplateOutlet="movieTrending"></ng-container>
+    </ng-container>
+    <ng-container *ngSwitchCase="'tv'">
+      <ng-container *ngTemplateOutlet="tvShowTrending"></ng-container>
+    </ng-container>
+    <ng-container *ngSwitchCase="'person'">
+      <ng-container *ngTemplateOutlet="peopleTrending"></ng-container>
+    </ng-container>
+  </div>
+</section>
+<section class="popular" id="popular">
+  <div class="d-flex align-items-center pt-3 pb-3">
+    <h2 class="mb-0 me-4">What's Popular?</h2>
+    <div class="pills-tab mb-2">
+      <div class="pills-tab-items" [ngClass]="popularMediaType === 'movie' ? 'active' : ''">
+        <a [routerLink]="" (click)="selectTabPopular('movie')">Movies</a>
+      </div>
+      <div class="pills-tab-items" [ngClass]="popularMediaType === 'tv' ? 'active' : ''">
+        <a [routerLink]="" (click)="selectTabPopular('tv')">TV Show</a>
+      </div>
+    </div>
+  </div>
+  <div class="pills-items" [ngSwitch]="popularMediaType">
+    <ng-container *ngSwitchCase="'movie'">
+      <div class="row row-cols-1 row-cols-md-6" *ngIf="popularList">
+        <div class="col" *ngFor="let movies of popularList">
+          <ng-container
+            [ngTemplateOutlet]="displayMovie"
+            [ngTemplateOutletContext]="{ detail: movies }"
+          ></ng-container>
+        </div>
+      </div>
+    </ng-container>
+    <ng-container *ngSwitchCase="'tv'">
+      <div class="row row-cols-1 row-cols-md-6" *ngIf="popularList">
+        <div class="col" *ngFor="let tv of popularList">
+          <ng-container
+            [ngTemplateOutlet]="displayTV"
+            [ngTemplateOutletContext]="{ detail: tv }"
+          ></ng-container>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</section>
+<ng-template #allTrending>
+  <div class="row row-cols-1 row-cols-md-6">
+    <div class="col" *ngFor="let all of trendingList">
+      <ng-container
+        [ngTemplateOutlet]="all.media_type === 'tv' ? displayTV : displayMovie"
+        [ngTemplateOutletContext]="{ detail: all }"
+      ></ng-container>
+    </div>
+  </div>
+</ng-template>
+<ng-template #movieTrending>
+  <div class="row row-cols-1 row-cols-md-6">
+    <div class="col" *ngFor="let movie of trendingList">
+      <ng-container
+        [ngTemplateOutlet]="displayMovie"
+        [ngTemplateOutletContext]="{ detail: movie }"
+      ></ng-container>
+    </div>
+  </div>
+</ng-template>
+<ng-template #tvShowTrending>
+  <div class="row row-cols-1 row-cols-md-6">
+    <div class="col" *ngFor="let tv of trendingList">
+      <ng-container
+        [ngTemplateOutlet]="displayTV"
+        [ngTemplateOutletContext]="{ detail: tv }"
+      ></ng-container>
+    </div>
+  </div>
+</ng-template>
+<ng-template #peopleTrending>
+  <div class="row row-cols-1 row-cols-md-6">
+    <div class="col" *ngFor="let person of trendingList">
+      <div class="card card-radius h-100">
+        <img
+          [src]="_configurationService.imageUrl + person.profile_path"
+          [alt]=""
+          class="card-img-top"
+          *ngIf="person.profile_path"
+        />
+        <div class="card-body">
+          <div class="card-title fw-bold">
+            {{ person.name }}
+          </div>
+          <div class="card-subtitle text-muted">
+            {{ person.known_for_department }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #displayMovie let-detail="detail">
+  <a
+    [routerLink]="['/movies/details', detail.id]"
+    class="text-decoration-none text-dark"
+  >
+    <div class="card card-radius h-100">
+      <img
+        [src]="_configurationService.imageUrl + detail.poster_path"
+        [alt]=""
+        class="card-img-top"
+        *ngIf="detail.poster_path"
+      />
+      <div class="card-body">
+        <div class="card-title fw-bold">
+          {{ detail.title }}
+        </div>
+        <div class="card-subtitle text-muted">
+          {{ detail.release_date | date: "dd MMM, yyyy" }}
+        </div>
+      </div>
+    </div>
+  </a>
+</ng-template>
+
+<ng-template #displayTV let-detail="detail">
+  <a
+    [routerLink]="['/tv-show/details', detail.id]"
+    class="text-decoration-none text-dark"
+  >
+    <div class="card card-radius h-100">
+      <img
+        [src]="_configurationService.imageUrl + detail.poster_path"
+        [alt]=""
+        class="card-img-top"
+        *ngIf="detail.poster_path"
+      />
+      <div class="card-body">
+        <div class="card-title fw-bold">
+          {{ detail.name }}
+        </div>
+        <div class="card-subtitle text-muted">
+          {{ detail.first_air_date | date: "dd MMM, yyyy" }}
+        </div>
+      </div>
+    </div>
+  </a>
+</ng-template>

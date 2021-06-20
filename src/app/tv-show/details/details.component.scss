@@ -1,0 +1,104 @@
+@import '../../../variables';
+
+.overlay {
+  background-image: linear-gradient(
+    to right,
+    rgba(0, 0, 0, 1) 150px,
+    rgba(0, 0, 0, 0.6) 100%
+  );
+  color: #fff;
+}
+
+.backdrop-image {
+  background-size: cover;
+  background-position: right -200px top;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.quotations{
+  quotes: """ """ "'" "'";
+}
+
+.quotations::before{
+  content: open-quote;
+}
+
+.quotations::after{
+  content: close-quote;
+}
+
+.pc-bg{
+  background-color: #e3e3e3;
+  padding: 7px;
+  color: #000;
+  border-radius: 5px;
+}
+
+.detail-subtitle > span:not(:first-child){
+ position: relative;
+ top: 0;
+ left: 0;
+ padding-left: 20px;
+}
+
+.detail-subtitle > span:not(:first-child)::before{
+  font-size: 1.1em;
+  line-height: 1;
+  content: '\2022';
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 7px;
+  display: inline-flex;
+  align-content: center;
+  align-items: center;
+}
+
+.spinner-pos{
+  position: relative;
+}
+
+.percentage{
+  position: absolute;
+  top: 1rem;
+  left: 0.9rem;
+  color: #000;
+}
+
+.cast-crew>a{
+  color: #6d6363;
+  text-decoration: none;
+}
+
+.card-image-overlay{
+  position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    padding: 1rem;
+    border-radius: calc(.25rem - 1px);
+}
+
+.card-text-overlay{
+  background: linear-gradient(to top, black, transparent);
+    color: #fff;
+    transition: color 150ms ease-in-out;
+}
+
+.popular-people a:hover .card-text-overlay, .popular-people a:active .card-text-overlay{
+  color: $link-hover-color;
+}
+
+.ratings {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  background: rgba(255,255,255, 1);
+  border-radius: 100%;
+}
+
+.position-relative {
+  position: relative;
+}

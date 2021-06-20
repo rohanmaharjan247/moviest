@@ -1,0 +1,9 @@
+.bg-nav {
+  background-color: #242956;
+  .nav-item > .nav-link, .navbar-brand {
+    color: #fff;
+  }
+}
+.dropdown-toggle::after{
+  content: none;
+}

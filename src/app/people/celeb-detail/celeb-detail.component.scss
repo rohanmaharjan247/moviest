@@ -1,0 +1,11 @@
+@import "../../../variables";
+
+.credits-link, .credits-link:visited{
+  color: #000;
+  text-decoration: none;
+  transition: color 150ms ease-in-out;
+}
+
+.credits-link:hover, .credits-link:active{
+  color: $link-hover-color;
+}
