@@ -10,3 +10,19 @@
 .card-radius-only{
   border-radius: 1rem;
 }
+
+.expand-border{
+  border-bottom: 1px solid #e1e1e1;
+  border-bottom-left-radius: 1rem;
+}
+
+.slide-up, .slide-down{
+  overflow-y: hidden;
+  transform: scaleY(0);
+  transform-origin: left top;
+  transition: all 1000ms ease-in-out;
+}
+
+.slide-down{
+  transform: scaleY(1);
+}

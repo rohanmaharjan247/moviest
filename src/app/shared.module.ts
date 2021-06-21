@@ -4,6 +4,7 @@ import { ImageLoaderDirective } from './directives/image-loader.directive';
 import { AppLoaderDirective } from './directives/app-loader.directive';
 
 
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @NgModule({
   declarations: [
@@ -11,12 +12,14 @@ import { AppLoaderDirective } from './directives/app-loader.directive';
     ImageLoaderDirective,
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    FontAwesomeModule
   ],
   exports:[
 
     AppLoaderDirective,
     ImageLoaderDirective,
+    FontAwesomeModule
   ]
 })
 export class SharedModule { }

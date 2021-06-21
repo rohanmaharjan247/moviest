@@ -2,12 +2,45 @@
   <ng-container *ngIf="celebDetail">
     <div class="row mt-3">
       <div class="col-sm-12 col-md-3">
-        <img
-          appImageLoader
-          [src]="_configurationService.imageUrl + celebDetail.profile_path"
-          class="img-fluid rounded"
-          *ngIf="celebDetail.profile_path"
-        />
+        <div class="position-relative">
+          <img
+            appImageLoader
+            [src]="_configurationService.imageUrl + celebDetail.profile_path"
+            class="img-fluid rounded"
+            *ngIf="celebDetail.profile_path"
+          />
+          <div class="social-icons px-4 py-3" *ngIf="socialIds?.facebook_id || socialIds?.instagram_id || socialIds?.twitter_id">
+            <ul class="p-0 m-0 d-flex">
+              <li *ngIf="socialIds?.facebook_id" class="mx-auto">
+                <a
+                  [href]="'https://www.facebook.com/' + socialIds?.facebook_id"
+                  target="_blank"
+                  class="text-decoration-none text-light"
+                >
+                  <fa-icon [icon]="faFacebook"></fa-icon>
+                </a>
+              </li>
+              <li *ngIf="socialIds?.instagram_id" class="mx-auto">
+                <a
+                  [href]="'https://www.instagram.com/' + socialIds?.instagram_id"
+                  target="_blank"
+                  class="text-decoration-none text-light"
+                >
+                  <fa-icon [icon]="faInstagram"></fa-icon>
+                </a>
+              </li>
+              <li *ngIf="socialIds?.twitter_id" class="mx-auto">
+                <a
+                  [href]="'https://www.twitter.com/' + socialIds?.twitter_id"
+                  target="_blank"
+                  class="text-decoration-none text-light"
+                >
+                  <fa-icon [icon]="faTwitter"></fa-icon>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
         <ul class="list-group list-group-flush">
           <li class="list-group-item"><h2 class="mb-1">Personal Info</h2></li>
           <li class="list-group-item">
@@ -50,7 +83,11 @@
           <div class="row row-cols-md-5">
             <div class="col" *ngFor="let credits of fewCredits">
               <a
-                [routerLink]="(credits.media_type == 'tv')? ['/tv-show/details', credits.id]:['/movies/details', credits.id]"
+                [routerLink]="
+                  credits.media_type == 'tv'
+                    ? ['/tv-show/details', credits.id]
+                    : ['/movies/details', credits.id]
+                "
                 class="text-decoration-none text-dark"
               >
                 <div class="card card-radius h-100">
@@ -94,7 +131,6 @@
   </ng-container>
 </div>
 
-
 <ng-template #forTV let-credit="credit">
   <p class="card-title fw-bold mb-0">
     {{ credit.original_name }}
@@ -121,7 +157,9 @@
         >({{ credit.name }})</span
       ></a
     >
-    <span class="text-muted" *ngIf="credit.character">as {{ credit.character }}</span>
+    <span class="text-muted" *ngIf="credit.character"
+      >as {{ credit.character }}</span
+    >
   </p>
 </ng-template>
 

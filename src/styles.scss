@@ -1,9 +1,17 @@
 /* You can add global styles to this file, and also import other style files */
 
+@use "~@angular/material" as mat;
 @import "./variables";
 
+$custom-typography: mat.define-typography-config(
+  $font-family: "Poppins"
+);
+
+@include mat.core($custom-typography);
+
+
 html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+body { margin: 0; font-family: 'Poppins', Roboto, "Helvetica Neue", sans-serif }
 
 h1,h2,h3,h4,h5,h6{
   letter-spacing: 1.5rem;
@@ -58,7 +66,7 @@ mat-form-field{
   transition: all 250ms ease-in-out;
 }
 
-.card-radius:hover{
+a > .card-radius:hover{
   box-shadow: 4px 2px 6px #e3e3e3;
   transform: translateY(-5px);
 }

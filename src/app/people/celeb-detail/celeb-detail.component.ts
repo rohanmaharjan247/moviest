@@ -6,6 +6,7 @@ import { Subject } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
 import { ConfigurationService } from 'src/app/services/configuration.service';
 import { PeopleService } from 'src/app/services/people.service';
+import { faFacebook, faInstagram, faTwitter } from '@fortawesome/free-brands-svg-icons';
 
 @Component({
   selector: 'app-celeb-detail',
@@ -14,6 +15,10 @@ import { PeopleService } from 'src/app/services/people.service';
 })
 export class CelebDetailComponent implements OnInit, OnDestroy {
   private toUnsubscribe$ = new Subject<void>();
+
+  faFacebook = faFacebook;
+  faInstagram = faInstagram;
+  faTwitter = faTwitter;
 
   peopleId = 0;
 

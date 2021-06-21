@@ -39,7 +39,6 @@ import { SearchComponent } from './misc/search/search.component';
     HttpClientModule,
     ReactiveFormsModule,
     MaterialStuffModule,
-    SharedModule
   ],
   providers: [
     { provide: 'BASE_API_URL', useValue: 'https://api.themoviedb.org/3' },
