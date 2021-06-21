@@ -1,0 +1,68 @@
+<ng-container *ngIf="seasonDetails">
+  <div class="d-flex header py-4">
+    <div class="flex-shrink-0">
+      <img [src]="_configuration._config.images.base_url + _configuration._config.images.poster_sizes[0] +  seasonDetails.poster_path" alt="" *ngIf="seasonDetails.poster_path">
+    </div>
+    <div class="flex-grow-1 px-3">
+      <h1 class="fw-bold mb-0">
+        {{ seasonDetails.name }} ({{ seasonDetails.air_date | date: "yyyy" }})
+      </h1>
+      <p class="mb-0">{{ seasonDetails.overview }}</p>
+      <h2 class="mb-0">Episodes <span class="display-6 text-muted">{{ seasonDetails.episodes.length }}</span></h2>
+    </div>
+  </div>
+  <div class="episodes-detail">
+    <div
+      class="card card-radius-only my-3"
+      *ngFor="let episode of seasonDetails.episodes"
+    >
+    <div class="d-flex align-items-center">
+      <div class="flex-shrink-0">
+        <img
+        [src]="
+          _configuration._config.images.base_url +
+          _configuration._config.images.still_sizes[1] +
+          episode.still_path
+        "
+        [alt]="episode.name"
+        *ngIf="episode.still_path"
+        class="still-images-radius still-images-height"
+      />
+      </div>
+      <div class="flex-grow-1">
+        <div class="py-3 px-2">
+          <div class="d-flex">
+            <p class="fw-bold mb-1 me-auto pe-2">{{ episode.name }}</p>
+            <p class="text-muted">{{episode.air_date | date: 'dd MMM, yyyy'}}</p>
+          </div>
+          <p class="mb-0">
+            {{ episode.overview }}
+          </p>
+        </div>
+      </div>
+    </div>
+      <!-- <div class="row">
+        <div class="col-2">
+          <img
+            [src]="
+              _configuration._config.images.base_url +
+              _configuration._config.images.still_sizes[1] +
+              episode.still_path
+            "
+            [alt]="episode.name"
+            *ngIf="episode.still_path"
+            class="still-images-radius"
+          />
+        </div>
+        <div class="col-10">
+          <div class="py-3">
+            <p class="fw-bold mb-1">{{ episode.name }}</p>
+            <p class="mb-0 pe-2">
+              {{ episode.overview }}
+            </p>
+          </div>
+        </div>
+      </div> -->
+    </div>
+  </div>
+</ng-container>

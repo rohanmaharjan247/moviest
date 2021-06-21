@@ -1,6 +1,16 @@
-import { TitleCasePipe } from '@angular/common';
-import { Component, Inject, OnInit, Optional, TemplateRef, ViewChild } from '@angular/core';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import {
+  Component,
+  Inject,
+  OnInit,
+  Optional,
+  TemplateRef,
+  ViewChild,
+} from '@angular/core';
+import {
+  MatDialog,
+  MatDialogRef,
+  MAT_DIALOG_DATA,
+} from '@angular/material/dialog';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { Subject } from 'rxjs';
@@ -26,6 +36,9 @@ export class DetailsComponent implements OnInit {
   tvShowId = 0;
 
   @ViewChild('allSeasons') allSeason!: TemplateRef<any>;
+
+  @ViewChild('alltvShowCreditsDialog')
+  allTvShowCreditsDialog!: TemplateRef<any>;
 
   constructor(
     @Optional() @Inject(MAT_DIALOG_DATA) public data: { tvShowId: number },
@@ -97,16 +110,17 @@ export class DetailsComponent implements OnInit {
       });
   }
 
-  openDialog(choice?:string) {
-    if(choice && choice === 'season'){
-      if(this.allSeason){
+  openDialog(choice?: string) {
+    if (choice && choice === 'season') {
+      if (this.allSeason) {
         const dialogRef = this.dialog.open(this.allSeason, {
           panelClass: 'custom-dialog-container',
         });
       }
-    }
-    else{
-
+    } else {
+      if (this.allTvShowCreditsDialog) {
+        const dialogRef = this.dialog.open(this.allTvShowCreditsDialog);
+      }
     }
   }
 

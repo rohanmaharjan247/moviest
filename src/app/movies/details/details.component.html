@@ -266,64 +266,37 @@
 <ng-template #allMovieCreditsDialog>
   <h1 mat-dialog-title>Credits</h1>
   <div mat-dialog-content>
-    <h2 class="mb-2" *ngIf="allMovieCredits.cast.length > 0">Cast</h2>
-    <div class="row row-cols-5">
-      <div class="col p-0" *ngFor="let cast of allMovieCredits.cast">
-        <a
-          [routerLink]=""
-          class="text-decoration-none text-dark"
-          (click)="closeDialog(cast.id)"
-        >
-          <div class="card">
-            <img
-              [src]="
-                _configuration._config.images.base_url +
-                _configuration._config.images.profile_sizes[1] +
-                cast.profile_path
-              "
-              class="card-img-top rounded"
-              *ngIf="cast.profile_path; else noImageFound"
-            />
-
-            <div class="card-image-overlay p-0">
-              <div class="card-text-overlay p-4">
-                <p class="mb-0">{{ cast.name }}</p>
-                <p class="mb-0">{{ cast.character }}</p>
+    <ng-container *ngIf="allMovieCredits">
+      <div class="row">
+        <div class="col-6">
+          <h1>Cast</h1>
+          <div class="row">
+            <div class="col-sm-12 col-md-6" *ngFor="let cast of allMovieCredits.cast">
+              <div class="d-flex align-items-center">
+                <div class="flex-shrink-0">
+                  <img [src]="_configuration._config.images.base_url +
+                  _configuration._config.images.profile_sizes[0] +
+                  cast.profile_path" [alt]="cast.name" *ngIf="cast.profile_path;">
+                </div>
+                <div class="flex-grow-1 ms-2">
+                  <p class="mb-0 fw-bold">{{cast.name}}</p>
+                  <p>{{cast.character}}</p>
+                </div>
               </div>
             </div>
           </div>
-        </a>
-      </div>
-    </div>
-    <h2 class="mb-2" *ngIf="allMovieCredits.crew.length > 0">Crew</h2>
-    <div class="row row-cols-5">
-      <div class="col p-0" *ngFor="let crew of allMovieCredits.crew">
-        <a
-          [routerLink]=""
-          class="text-decoration-none text-dark"
-          (click)="closeDialog(crew.id)"
-        >
-          <div class="card">
-            <img
-              [src]="
-                _configuration._config.images.base_url +
-                _configuration._config.images.profile_sizes[1] +
-                crew.profile_path
-              "
-              class="card-img-top rounded"
-              *ngIf="crew.profile_path; else noImageFound"
-            />
-
-            <div class="card-image-overlay p-0">
-              <div class="card-text-overlay p-4">
-                <p class="mb-0">{{ crew.name }}</p>
-                <p class="mb-0">{{ crew.job }}</p>
-              </div>
+        </div>
+        <div class="col-sm-12 col-md-6">
+          <h1>Crew</h1>
+          <div class="row">
+            <div class="col-4" *ngFor="let crew of allMovieCredits.crew">
+              <p class="mb-0 fw-bold">{{crew.name}}</p>
+              <p>{{crew.job}}</p>
             </div>
           </div>
-        </a>
+        </div>
       </div>
-    </div>
+    </ng-container>
   </div>
 </ng-template>
 
