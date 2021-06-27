@@ -445,8 +445,37 @@
 
 <ng-template #allSeasons>
   <ng-container *ngIf="tvShowDetail.seasons.length > 0">
-    <div mat-dialog-content>
-      <div class="card" *ngFor="let season of tvShowDetail.seasons">
+    <div mat-dialog-title>
+      <h2 class="px-3 py-2">All Seasons</h2>
+    </div>
+    <div mat-dialog-content class="px-5">
+      <ng-container  *ngFor="let season of tvShowDetail.seasons">
+        <a mat-dialog-close [routerLink]="['season', season.season_number]" class="text-decoration-none text-dark">
+          <div class="d-flex align-items-center my-2">
+            <div class="flex-shrink-0">
+              <img
+              [src]="_configuration._config.images.base_url + _configuration._config.images.poster_sizes[0] + season.poster_path"
+              class="img-fluid rounded"
+            />
+            </div>
+            <div class="flex-grow-1 px-2">
+              <p class="mb-0 fw-bold">
+                {{ season.name }}
+              </p>
+              <p class="mb-0">
+                {{ season.air_date | date: "yyyy" }}
+                |
+                {{ season.episode_count }}
+                Episodes
+              </p>
+              <p class="mb-0">
+                {{ season.overview }}
+              </p>
+            </div>
+          </div>
+        </a>
+      </ng-container>
+      <!-- <div class="card" *ngFor="let season of tvShowDetail.seasons">
         <div class="row">
           <div class="col-3">
             <img
@@ -469,7 +498,7 @@
             </p>
           </div>
         </div>
-      </div>
+      </div> -->
     </div>
   </ng-container>
 </ng-template>

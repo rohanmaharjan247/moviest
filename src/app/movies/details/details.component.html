@@ -144,9 +144,16 @@
             </h2>
           </div>
         </div>
-        <hr />
+        <ng-container *ngIf="movieVideos">
 
+        <!-- <hr /> -->
+          <ng-container *ngFor="let result of movieVideos.results">
+            <!-- <iframe [src]="'https://www.youtube.com/embed/'+result.key | safeUrl: 'resourceUrl'" allowfullscreen="false"></iframe> -->
+          </ng-container>
+        </ng-container>
         <ng-container *ngIf="movieReviews">
+
+        <hr />
           <div class="row">
             <div class="col-8">
               <div

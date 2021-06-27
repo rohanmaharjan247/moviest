@@ -15,7 +15,7 @@
       <h1 class="fw-bold mb-0">
         {{ seasonDetails.name }} ({{ seasonDetails.air_date | date: "yyyy" }})
       </h1>
-      <p class="mb-0">{{ seasonDetails.overview }}</p>
+      <!-- <p class="mb-0">{{ seasonDetails.overview }}</p> -->
       <h2 class="mb-0">
         <span class="display-6 text-muted">{{
           seasonDetails.episodes.length
@@ -29,7 +29,7 @@
       class="card card-radius-only my-3"
       *ngFor="let episode of seasonDetails.episodes; let i=index;"
     >
-      <div class="d-flex align-items-center expand-border">
+      <div class="d-flex align-items-center" [class.expand-border]="episode?.crew?.length > 0 && episode?.guest_stars?.length > 0">
         <div class="flex-shrink-0">
           <img
             [src]="
@@ -56,7 +56,7 @@
           </div>
         </div>
       </div>
-      <p class="d-flex justify-content-center align-items-center mb-0 py-2">
+      <p class="d-flex justify-content-center align-items-center mb-0 py-2" *ngIf="episode?.crew?.length > 0 && episode?.guest_stars?.length > 0">
         <a [routerLink]="" class="text-decoration-none text-dark" (click)="expandCrews(episode.name)">Expand >></a>
       </p>
       <div

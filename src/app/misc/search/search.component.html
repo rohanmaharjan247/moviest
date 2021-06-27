@@ -1,19 +1,25 @@
-
 <div class="row">
   <div class="col">
-
     <ul class="list-group">
-      <li class="list-group-item p-0 list-header"><h2 class="m-0 p-2">Search Results</h2></li>
-      <li class="list-group-item">TV Shows</li>
-      <li class="list-group-item">Movies</li>
-      <li class="list-group-item">People</li>
-      <li class="list-group-item">Collection</li>
-      <li class="list-group-item">Networks</li>
+      <li class="list-group-item p-0 list-header">
+        <h2 class="m-0 p-2">Search Results</h2>
+      </li>
+      <li class="list-group-item">
+        <a [routerLink]="" (click)="selectSearchCategory('tv')" class="text-decoration-none text-dark">TV Shows</a>
+      </li>
+      <li class="list-group-item">
+        <a [routerLink]="" (click)="selectSearchCategory('movie')" class="text-decoration-none text-dark">Movies</a>
+      </li>
+      <li class="list-group-item">
+        <a [routerLink]="" (click)="selectSearchCategory('person')" class="text-decoration-none text-dark">People</a>
+      </li>
+      <!-- <li class="list-group-item">Collection</li>
+      <li class="list-group-item">Networks</li> -->
     </ul>
   </div>
   <div class="col-9">
     <ng-container *ngIf="searchResult">
-      <ng-container *ngFor="let search of searchResult.results">
+      <ng-container *ngFor="let search of searchResult">
         <ng-container [ngSwitch]="search.media_type">
           <ng-container *ngSwitchCase="'movie'">
             <ng-container
@@ -40,8 +46,36 @@
 </div>
 
 <ng-template #forMovie let-details="details">
-  <a [routerLink]="['/movies/details', details.id]" class="text-decoration-none text-dark">
-    <div class="card">
+  <a
+    [routerLink]="['/movies/details', details.id]"
+    class="text-decoration-none text-dark"
+  >
+    <div class="d-flex align-items-center wrapper my-2">
+      <div class="flex-shrink-0">
+        <img
+          [src]="
+            _config._config.images.base_url +
+            _config._config.images.poster_sizes[1] +
+            details.poster_path
+          "
+          [alt]="details.title"
+          class="wrapper-image"
+          *ngIf="details.poster_path"
+        />
+      </div>
+      <div class="flex-grow-1 px-2">
+        <div class="fw-bold details-name">
+          {{ details.title }}
+        </div>
+        <div class="pb-2 text-muted">
+          {{ details.release_date | date: "dd MMM, yyyy" }}
+        </div>
+        <div class="d-inline-block text-truncate truncate-width">
+          {{ details.overview }}
+        </div>
+      </div>
+    </div>
+    <!-- <div class="card">
       <div class="wrapper">
         <div class="">
           <img
@@ -69,7 +103,7 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
   </a>
 </ng-template>
 <ng-template #forTV let-details="details">
@@ -77,7 +111,32 @@
     [routerLink]="['/tv-show/details', details.id]"
     class="text-decoration-none text-dark"
   >
-    <div class="card">
+    <div class="d-flex align-items-center wrapper my-2">
+      <div class="flex-shrink-0">
+        <img
+          [src]="
+            _config._config.images.base_url +
+            _config._config.images.poster_sizes[1] +
+            details.poster_path
+          "
+          [alt]="details.name"
+          class="wrapper-image"
+          *ngIf="details.poster_path"
+        />
+      </div>
+      <div class="flex-grow-1 px-2">
+        <div class="fw-bold details-name">
+          {{ details.name }}
+        </div>
+        <div class="pb-2 text-muted">
+          {{ details.first_air_date | date: "dd MMM, yyyy" }}
+        </div>
+        <div class="d-inline-block text-truncate truncate-width">
+          {{ details.overview }}
+        </div>
+      </div>
+    </div>
+    <!-- <div class="card">
       <div class="wrapper">
         <div class="">
           <img
@@ -105,39 +164,35 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
   </a>
 </ng-template>
 <ng-template #forPerson let-details="details">
-  <a [routerLink]="['/people', details.id]" class="text-decoration-none text-dark">
-    <div class="card">
-      <div class="wrapper">
-        <div class="">
-          <img
-            [src]="
-              _config._config.images.base_url +
-              _config._config.images.profile_sizes[1] +
-              details.profile_path
-            "
-            [alt]="details.name"
-            class="wrapper-image"
-            *ngIf="details.profile_path"
-          />
-        </div>
-        <div class="details">
-          <div class="card-body">
-            <div class="card-title fw-bold details-name">
-              {{ details.name }}
-            </div>
-            <div class="card-subtitle pb-2 text-muted">
-              {{ details.known_for_department }}
-            </div>
-            <div class="card-content details-overview">
-              {{ details.overview }}
-            </div>
-          </div>
-        </div>
+  <a
+    [routerLink]="['/people', details.id]"
+    class="text-decoration-none text-dark"
+  >
+  <div class="d-flex align-items-center wrapper my-2">
+    <div class="flex-shrink-0">
+      <img
+        [src]="
+          _config._config.images.base_url +
+          _config._config.images.profile_sizes[1] +
+          details.profile_path
+        "
+        [alt]="details.name"
+        class="wrapper-image"
+        *ngIf="details.profile_path"
+      />
+    </div>
+    <div class="flex-grow-1 px-2">
+      <div class="fw-bold details-name">
+        {{ details.name }}
+      </div>
+      <div class="pb-2 text-muted">
+        {{ details.known_for_department}}
       </div>
     </div>
+  </div>
   </a>
 </ng-template>

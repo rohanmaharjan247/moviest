@@ -1,6 +1,15 @@
-import { Component, Inject, Input, OnDestroy, OnInit, Optional, TemplateRef, ViewChild } from '@angular/core';
+import {
+  Component,
+  Inject,
+  Input,
+  OnDestroy,
+  OnInit,
+  Optional,
+  TemplateRef,
+  ViewChild,
+} from '@angular/core';
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Title } from '@angular/platform-browser';
+import { DomSanitizer, Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { map, take, takeUntil, takeWhile } from 'rxjs/operators';
@@ -22,25 +31,26 @@ export class DetailsComponent implements OnInit, OnDestroy {
   movieKeywords: any;
   movieReviews: any;
   allMovieCredits: any;
-
+  movieVideos:any;
   viewMore = false;
+  sanitizerUrl:any;
 
-  @ViewChild('allMovieCreditsDialog') allCreditsDialog!:TemplateRef<any>;
+  @ViewChild('allMovieCreditsDialog') allCreditsDialog!: TemplateRef<any>;
 
   constructor(
-    @Optional() @Inject(MAT_DIALOG_DATA) data: {movieId:number},
+    @Optional() @Inject(MAT_DIALOG_DATA) data: { movieId: number },
     private _movieService: MoviesService,
     public _configuration: ConfigurationService,
     private avRouter: ActivatedRoute,
     private title: Title,
     private dialog: MatDialog,
-    private router:Router
+    private router: Router,
+    private domSanitizer: DomSanitizer
   ) {
-    if(data){
-      this.movieId = data.movieId
+    if (data) {
+      this.movieId = data.movieId;
       this.viewMore = false;
-    }
-    else{
+    } else {
       avRouter.params.subscribe((data) => {
         this.movieId = +data['id'];
         this.viewMore = true;
@@ -57,6 +67,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
     this.getMovieCredits();
     this.getMovieKeyword();
     this.getMovieReviews();
+    this.getMovieVideos();
   }
 
   getMovieDetail() {
@@ -65,8 +76,8 @@ export class DetailsComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.toUnsubscribe$))
       .subscribe((data: any) => {
         this.movieDetail = data;
-        if(this.viewMore){
-          this.title.setTitle(`${data.title} - Moviest`)
+        if (this.viewMore) {
+          this.title.setTitle(`${data.title} - Moviest`);
         }
       });
   }
@@ -74,15 +85,12 @@ export class DetailsComponent implements OnInit, OnDestroy {
   getMovieCredits() {
     this._movieService
       .getMovieCredits(this.movieId)
-      .pipe(
-        takeUntil(this.toUnsubscribe$)
-      )
+      .pipe(takeUntil(this.toUnsubscribe$))
       .subscribe((data: any) => {
         console.log('credits', data);
-        this.movieCredits = data.cast.filter(
-          (x: any) => x.known_for_department.toLowerCase() === 'acting'
-        )
-        .slice(0, 5);;
+        this.movieCredits = data.cast
+          .filter((x: any) => x.known_for_department.toLowerCase() === 'acting')
+          .slice(0, 5);
         this.allMovieCredits = data;
       });
   }
@@ -110,12 +118,22 @@ export class DetailsComponent implements OnInit, OnDestroy {
       });
   }
 
-  openDialog(){
-    this.dialog.open(this.allCreditsDialog)
+  getMovieVideos() {
+    this._movieService
+      .getMovieVideos(this.movieId)
+      .pipe(takeUntil(this.toUnsubscribe$))
+      .subscribe((data: any) => {
+        console.log(data, "movie videos");
+        this.movieVideos = data;
+      });
   }
 
-  closeDialog(id:number){
-    this.router.navigate(['/people',id])
+  openDialog() {
+    this.dialog.open(this.allCreditsDialog);
+  }
+
+  closeDialog(id: number) {
+    this.router.navigate(['/people', id]);
     this.dialog.closeAll();
   }
 

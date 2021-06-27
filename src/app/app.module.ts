@@ -23,6 +23,7 @@ import { TvShowsListComponent } from './tv-show/tv-shows-list/tv-shows-list.comp
 import { HomeComponent } from './main/home/home.component';
 import { SharedModule } from './shared.module';
 import { SearchComponent } from './misc/search/search.component';
+import { SafeUrlPipe } from './pipes/safe-url.pipe';
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import { SearchComponent } from './misc/search/search.component';
     HttpClientModule,
     ReactiveFormsModule,
     MaterialStuffModule,
+    SharedModule
   ],
   providers: [
     { provide: 'BASE_API_URL', useValue: 'https://api.themoviedb.org/3' },

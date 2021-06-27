@@ -4,7 +4,7 @@ import {
   HttpParams,
 } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
-import { throwError } from 'rxjs';
+import { pipe, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 @Injectable({
@@ -65,11 +65,21 @@ export class MoviesService {
   }
 
   getKeywords(movieId: number) {
-    return this.httpClient.get(`${this.baseUrl}/movie/${movieId}/keywords`);
+    return this.httpClient
+      .get(`${this.baseUrl}/movie/${movieId}/keywords`)
+      .pipe(catchError(this.handleErrors));
   }
 
   getReviews(movieId: number) {
-    return this.httpClient.get(`${this.baseUrl}/movie/${movieId}/reviews`);
+    return this.httpClient
+      .get(`${this.baseUrl}/movie/${movieId}/reviews`)
+      .pipe(catchError(this.handleErrors));
+  }
+
+  getMovieVideos(movieId: number) {
+    return this.httpClient
+      .get(`${this.baseUrl}/movie/${movieId}/videos`)
+      .pipe(catchError(this.handleErrors));
   }
 
   private handleErrors(error: HttpErrorResponse) {

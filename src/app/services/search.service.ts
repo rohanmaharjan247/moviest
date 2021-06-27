@@ -26,6 +26,26 @@ export class SearchService {
       .pipe(catchError(this.handleErrors));
   }
 
+  searchTVShow(query: string) {
+    return this.httpClient
+      .get(`${this.baseUrl}/search/tv`, {
+        params: new HttpParams().set('query', query),
+        // observe: 'events',
+        // reportProgress: true
+      })
+      .pipe(catchError(this.handleErrors));
+  }
+
+  searchMovie(query: string) {
+    return this.httpClient
+      .get(`${this.baseUrl}/search/movie`, {
+        params: new HttpParams().set('query', query),
+        // observe: 'events',
+        // reportProgress: true
+      })
+      .pipe(catchError(this.handleErrors));
+  }
+
   private handleErrors(error: HttpErrorResponse) {
     if (error.status === 0) {
       console.error('An error occured', error.error);

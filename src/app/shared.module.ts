@@ -5,21 +5,21 @@ import { AppLoaderDirective } from './directives/app-loader.directive';
 
 
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { SafeUrlPipe } from './pipes/safe-url.pipe';
 
 @NgModule({
   declarations: [
     AppLoaderDirective,
-    ImageLoaderDirective,
+    ImageLoaderDirective
   ],
   imports: [
     CommonModule,
     FontAwesomeModule
   ],
   exports:[
-
     AppLoaderDirective,
     ImageLoaderDirective,
-    FontAwesomeModule
+    FontAwesomeModule,
   ]
 })
 export class SharedModule { }
